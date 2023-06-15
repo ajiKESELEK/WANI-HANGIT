@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lakatan team</title>
+</head>
+<style>
+  body {
+    background-image: url(ETS1.png);
+    background-size: cover;
+    overflow: hidden; 
+    height: 100vh;
+  }
+
+  td {
+    padding: 50px;
+    width: auto;
+    border-radius: 20px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000000;
+  }
+
+  /* .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #00000065;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      margin-top: 250px;
+      color: white;
+    } */
+
+    .Pop-up-login {
+      opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(9, 9, 9, 0.5);
+    transition: 0.3s ease-in-out;
+    width: 450px;
+    overflow-y: auto;
+    height: auto;
+    margin: 0;
+    font-size: 30px;
+    padding: 10px;
+    }
+
+    .Pop-up-login.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    animation: slideDown 0.5s ease-in-out;
+  }
+
+    .h2 {
+      text-align: center;
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 400px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .form-group button {
+      width: 150px;
+      padding: 8px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #327c36;
+    }
+
+    .form-group .message {
+      color: red;
+    }
+
+    .form-group .success {
+      color: green;
+    }
+
+    .form-group .switch-form {
+      text-align: center;
+      margin-top: 10px;
+      color: white;
+    }
+
+    .form-group .switch-form span {
+      color: #666;
+    }
+
+    .form-group .switch-form a {
+      color: #4caf50;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .signup-form {
+      display: none;
+    }
+
+    .signup-form .form-group {
+      margin-bottom: 15px;
+    }
+
+    .signup-form .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .signup-form .form-group input {
+      width: 400px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .signup-form .form-group button {
+      width: 150px;
+      padding: 8px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .signup-form .form-group button:hover {
+      background-color: #327c36;
+    }
+
+    .signup-form .form-group .message {
+      color: red;
+    }
+
+    .signup-form .form-group .success {
+      color: green;
+    }
+
+    .signup-form .form-group .switch-form {
+      text-align: center;
+      margin-top: 10px;
+      color: white;
+    }
+
+    .signup-form .form-group .switch-form span {
+      color: #ffffff;
+    }
+
+    .signup-form .form-group .switch-form a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Animasi */
+    .fade-in {
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+  .judul {
+    animation: move-up-down 3s ease-in-out infinite;
+    text-align: center;
+    font-size: 6em;
+    line-height: 95px;
+    margin: 20px;
+    padding: 20px;
+    font-family: cursive;
+    color: #f6ee82;
+    text-shadow: 10px 5px 1px #0d0d0d79;
+    cursor: default;
+    font-weight: 900;
+    -webkit-text-stroke: 3px rgb(245, 194, 41);
+    margin-top: 5vh;
+  }
+
+  /* class tombol switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #888888;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked+.slider {
+    background-color: rgb(245, 194, 41);
+  }
+
+  input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  /* class tombol switch */
+  .btn-Login {
+    padding: 4px 20px;
+    float: right;
+    font-size: 20px;
+    margin: 10px;
+    background-color: white;
+    border : none;
+    border-radius: 5px;
+  }
+
+  .header-about {
+    background-color: rgb(37, 37, 37);
+    color: #ffffff;
+    padding: 10px;
+    font-size: 50px;
+    width: auto;
+  }
+
+  .header-about-name {
+    font-size: 35px;
+    font-family: cursive;
+    color: #f09b24;
+    font-weight: 900;
+  }
+
+  .about-sebagai {
+    font-size: 30px;
+    font-weight: 100;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .new-td {
+    width: 20%;
+    background-color: #f09b24;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  /* Pop up */
+  .Pop-up-new {
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(9, 9, 9, 0.5);
+    transition: 0.3s ease-in-out;
+    width: 70%;
+    overflow-y: auto;
+    max-height: 80%;
+    margin: 0;
+
+  }
+
+  .Pop-up-new.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    animation: slideDown 0.5s ease-in-out;
+  }
+
+  .tabel-about {
+    margin: 10px 10px 10px 10px;
+  }
+
+  .btn-close-pop-up {
+    margin: 20px;
+    padding: 14px 25px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  /* Div Menu */
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding-top: 10%;
+    flex-direction: column;
+    animation: kiri 0.7s ease-in-out;
+  }
+
+  .flex-container>div,
+  .link {
+    background-color: #ffee02;
+    font-weight: 600;
+    width: 350px;
+    height: 80px;
+    margin: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 50px;
+    border-radius: 10px;
+    font-family: sans-serif;
+    transition: 0.05s;
+    color: #ffffff;
+    text-shadow: 4px 4px 3px #151515e4;
+    box-shadow: 10px 10px 5px rgba(19, 19, 19, 0.553);
+    cursor: pointer;
+    
+  }
+
+  @keyframes kiri {
+    0% {
+      transform: translateX(80%);
+    }
+
+    100% {
+    }
+
+  }
+
+  .flex-container>div:hover,
+  .flex-container>a:hover {
+    background-color: #decf02;
+    transform: scale(1.04);
+  }
+
+  .konten-materi {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-wrap: wrap;
+    width: auto;
+    height: auto;
+    padding: 10px
+  }
+
+  .konten-materi>div {
+    background-color: #f1f1f1;
+    width: 300px;
+    height: 325px;
+    color: #000000;
+    margin: 15px;
+    padding: 35px 15px 35px 15px;
+    text-align: center;
+    box-shadow: 2px 2px 1px 1px rgba(158, 158, 158, 0.553);
+    font-family: sans-serif;
+  }
+
+  @keyframes slideDown {
+    0% {
+      top: 0;
+      /* transform: rotate(90deg); */
+    }
+
+    50% {
+      top: 60%;
+    }
+
+    100% {
+      top: 50%;
+    }
+  }
+
+  @keyframes move-up-down {
+    0% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-14px);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    .flex-container {
+      align-items: center;
+    }
+
+    .Pop-up-new {
+      width: fit-content;
+    }
+  }
+</style>
+
+<body>
+  <!-- Tombol Slider -->
+  <label class="switch">
+    <input type="checkbox" onclick="ganti_latar()">
+    <span class="slider round"></span>
+  </label>
+  <button class="btn-Login" id="tmbllogin">login</button>
+  <button class="btn-Login" id="logout-button">log out</button>
+  <p class="judul">traffic education</p>
+  <!-- Menu di Loby -->
+  <div class="flex-container">
+    <div id="btn-materi">Materi</div>
+    <a class="link" href="Game/index.html">
+      <div>Game</div>
+    </a>
+    <div id="btn-about">Tentang</div>
+  </div>
+  <!-- Pop up Login -->
+  <div class="Pop-up-login" id="popupLogin">
+    <div class="container">
+      <h2>Login</h2>
+      <form id="login-form" class="login-form fade-in" action="#">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-group">
+          <button type="submit">Login</button>
+          <p class="message"></p>
+        </div>
+        <div class="switch-form">
+          <span>Don't have an account? </span><a id="signup-link" style="cursor: pointer;">Sign Up</a>
+        </div>
+      </form>
+  
+      <form id="signup-form" class="signup-form fade-in" action="#">
+        <div class="form-group">
+          <label for="signup-name">Name</label>
+          <input type="text" id="signup-name" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-group">
+          <button id="submitData" type="submit">Sign Up</button>
+          <p class="message"></p>
+        </div>
+        <div class="switch-form">
+          <span>Already have an account? </span><a id="login-link" style="cursor: pointer;">Login</a>
+        </div>
+      </form>
+      <button class="btn-close-pop-up" id="btn-close_login">Tutup</button>
+    </div>
+  </div>
+  <!-- Pop-up ABOUT========================================================== -->
+  <div class="Pop-up-new" id="popupabout">
+    <div class="header-about">About</div>
+    <h1 style="margin-left: 10px;">&copy;2023 Lakatan Team. Project Akhir V0.1</h1>
+    <table class="tabel-about">
+      <tr>
+        <td class="new-td" rowspan="2">
+          <p class="about-sebagai" align="center">P<br>R<br>O<br>J<br>E<br>C<br>T</p>
+          <p class="about-sebagai" align="center">B<br>Y</p>
+        </td>
+        <td>
+          <img src="me.jpg" width="180px" height="180px" alt="Foto me">
+          <p class="header-about-name">Abdul Hayyi</p>
+          <p class="about-sebagai">Sebagai : Leader, Desaigner WEB</p>
+          <p>Sosmed :</p>
+          <a href="https://www.instagram.com/hayyii_09/"><img src="Ig.png" width="30px"></a>
+          <a href="https://web.facebook.com/abdulhayyi.abdulhayyi.56"><img src="Fb.png" width="30px"></a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="Yudii.jpeg" width="180px" height="180px" alt="Foto me">
+          <p class="header-about-name">Muhammad Yudi Fitriyadi</p>
+          <p class="about-sebagai">Sebagai : Support</p>
+          <p>Sosmed :</p>
+          <a href=""><img src="Ig.png" width="30px"></a>
+          <a href=""><img src="Fb.png" width="30px"></a>
+        </td>
+      </tr>
+    </table>
+    <button class="btn-close-pop-up" id="btn-close">Tutup</button>
+  </div>
+  </div>
+  <!-- Pop-up MATERI ==================================================-->
+  <div class="Pop-up-new" id="popupmateri">
+    <h1 style="background-color: #f09b24; color: #fff; margin: 0; padding: 10px;">Materi</h1>
+    <div class="konten-materi">
+      <div>
+        <img src="marka.png" width="250px" height="250px">
+        <a href="materi_rambu.html">
+          <h2>Pengenalan Rambu Lalu Lintas</h2>
+        </a>
+      </div>
+      <div>
+        <img src="marka.png" width="250px" height="250px">
+        <a href="materi_marka.html">
+          <h2>Pengenalan Marka Jalan</h2>
+        </a>
+      </div>
+      <div>
+        <img src="marka.png" width="250px" height="250px">
+        <a href="aturan_berkendara.html">
+          <h2>Aturan Aturan Berkendara</h2>
+        </a>
+      </div>
+    </div>
+    <h1 style="background-color: #f09b24; color: #fff; padding: 10px;">Evaluasi</h1>
+    <div class="konten-materi">
+      <div>
+        <img src="marka.png" width="250px" height="250px">
+        <a href="latihan.html">
+          <h2>Latihan</h2>
+        </a>
+      </div>
+    </div>
+    <button class="btn-close-pop-up" id="btn-close_materi">Tutup</button>
+  </div>
+  </div>
+  <audio id="myAudio">
+    <source src="Tema.mp3" type="audio/mpeg">
+    <source src="about_theme.ogg" type="audio/ogg">
+  </audio>
+  <script>
+    //ganti latar
+    function ganti_latar() {
+      let body = document.querySelector('body');
+      let currentBackground = body.style.backgroundImage;
+      let newBackground = '';
+
+      if (currentBackground.includes('ETS2.png')) {
+        newBackground = 'url("ETS1.png")';
+      }
+      else {
+        newBackground = 'url("ETS2.png")';
+      }
+      body.style.backgroundImage = newBackground;
+    }
+
+    let audio = document.getElementById("myAudio");
+    audio.autoplay = true;
+    audio.load();
+    //script pop-up about
+    const btnAbout = document.getElementById('btn-about');
+    const popupAbout = document.getElementById('popupabout');
+    const btnClose = document.getElementById('btn-close');
+    btnAbout.addEventListener('click', () => {
+      popupAbout.classList.add('show');
+    });
+    btnClose.addEventListener('click', () => {
+      popupAbout.classList.remove('show');
+    });
+    //script pop-up materi
+    const btnmateri = document.getElementById('btn-materi');
+    const popupmateri = document.getElementById('popupmateri');
+    const btnClose_materi = document.getElementById('btn-close_materi');
+    btnmateri.addEventListener('click', () => {
+      popupmateri.classList.add('show');
+    });
+    btnClose_materi.addEventListener('click', () => {
+      popupmateri.classList.remove('show');
+    });
+
+    /////
+    const btnlogin = document.getElementById('tmbllogin');
+    const popuplogin = document.getElementById('popupLogin');
+    const btnClose_login = document.getElementById('btn-close_login');
+    btnlogin.addEventListener('click', () => {
+      popuplogin.classList.add('show');
+    });
+    btnClose_login.addEventListener('click', () => {
+      popuplogin.classList.remove('show');
+    });
+  </script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDyKKwF8BetzCrXOgW859mRHihYKhOjkrk",
+      authDomain: "log-sign-e6e44.firebaseapp.com",
+      projectId: "log-sign-e6e44",
+      storageBucket: "log-sign-e6e44.appspot.com",
+      messagingSenderId: "134592938543",
+      appId: "1:134592938543:web:ab5ec8d081cf41f589fcda",
+      databaseURL: 'https://log-sign-e6e44-default-rtdb.asia-southeast1.firebasedatabase.app'
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    document.getElementById("submitData").addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          set(ref(database, "users/" + user.uid), {
+            name: name,
+            email: email
+          })
+            .then(() => {
+              // Data saved successfully!
+              swal("User Berhasil Terdaftar");
+            })
+            .catch((error) => {
+              // The write failed...
+              swal("User Gagal Terdaftar");
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          swal("User Gagal Terdaftar");
+        });
+    });
+
+    document.getElementById("login-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+
+          var lgDate = new Date();
+          update(ref(database, "users/" + user.uid), {
+            last_login: lgDate,
+          })
+            .then(() => {
+              // Data saved successfully!
+              swal("Login Berhasil");
+              // window.location.href = "PEMWEB AKHIR.html";
+            })
+            .catch((error) => {
+              // The write failed...
+              swal("Login Gagal Password atau Username Salah");
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          swal("Login Gagal Password atau Username Salah");
+        });
+    });
+
+    document.getElementById("logout-button").addEventListener("click", (e) => {
+      e.preventDefault();
+
+      signOut(auth)
+        .then(() => {
+          // Sign-out Successful.
+          swal("User Berhasil Log out");
+        })
+        .catch((error) => {
+          // An Error Happened.
+          swal("User Gagal Log out");
+        });
+    });
+  </script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">
+    import swal from 'sweetalert';
+
+  </script>
+
+  <script>
+
+    // Mengubah tampilan form saat tautan "Sign Up" atau "Login" diklik
+    document.getElementById("signup-link").addEventListener("click", function () {
+      document.getElementById("login-form").style.display = "none";
+      document.getElementById("signup-form").style.display = "block";
+    });
+
+    document.getElementById("login-link").addEventListener("click", function () {
+      document.getElementById("signup-form").style.display = "none";
+      document.getElementById("login-form").style.display = "block";
+    });
+  </script>
+</body>
+
+</html>

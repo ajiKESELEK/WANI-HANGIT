@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tebak Fungsi Rambu</title>
+  <style>
+    /* CSS Styling */
+    body {
+      background-image: url("background.jpg"); /* Ganti dengan URL gambar latar belakang yang diinginkan */
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #game-container {
+      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.8); /* Ubah opacity latar belakang jika diperlukan */
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 50px auto;
+      max-width: 800px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    .answer-choices {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeIn 0.5s ease-in;
+      margin-top: 20px;
+    }
+
+    .answer-choice {
+      background-color: #eee;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px auto;      
+      padding: 20px;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .answer-choice:hover {
+      background-color: #ddd;
+    }
+
+    .answer-choice img {
+      height: 200px;
+      width: auto;
+      border-radius: 10px;
+      animation: zoomIn 0.5s ease-in;
+    }
+
+    .correct-choice {
+      border-color: #689f38;
+    }
+
+    .correct-choice img {
+      border: 2px solid #8bc34a;
+      border-radius: 10px;
+      animation: borderZoom 0.5s ease-in;
+    }
+
+    .incorrect-choice {
+      border-color: #e53935;
+    }
+
+    .incorrect-choice img {
+      border: 2px solid #e53935;
+      border-radius: 10px;
+      animation: borderZoom 0.5s ease-in;
+    }
+
+    .result-container {
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in;
+      animation-fill-mode: forwards;
+    }
+
+    .result-text {
+      color: #333;
+      margin: 10px 0;
+    }
+
+    #timer {
+      color: #666;
+      margin-top: 20px;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .fade-out {
+      animation: fadeOut 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes borderZoom {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Added CSS */
+    #back-button {
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #back-button:hover {
+      background-color: #45a049;
+    }
+    /* Media Queries */
+    @media only screen and (max-width: 600px) {
+      #game-container {
+        margin: 20px;
+        padding: 10px;
+      }
+
+      .answer-choice {
+        padding: 10px;
+      }
+
+      .answer-choice img {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <h2 id="question"></h2>
+    <div class="answer-choices">
+      <div class="answer-choice" id="answer1">
+        <img src="" alt="Option 1">
+      </div>
+      <div class="answer-choice" id="answer2">
+        <img src="" alt="Option 2">
+      </div>
+      <div class="answer-choice" id="answer3">
+        <img src="" alt="Option 3">
+      </div>
+    </div>
+    <div class="result-container">
+      <h3 class="result-text" id="result-text"></h3>
+    </div>
+    <h2 id="timer"></h2>
+    <a href="index.html" id="back-button">Kembali</a>
+  </div>
+
+  <script>
+    // JavaScript code here...
+    var questions = [
+      {
+        image: ["dilarang masuk.png", "dilarang stop.png", "DilarangKlakson.png"],
+        question: "Rambu Dilarang STOP adalah...",
+        answer: 1
+      },
+      {
+        image: ["truk dilarang masuk.png", "motor mobil larang.png", "mobil larang.png"],
+        question: "Rambu Larangan Mobil Masuk adalah...",
+        answer: 2
+      },
+      {
+        image: ["tikungan zigzag.png", "tikungan ganda.png", "tikungan entah.png"],
+        question: "Rambu Peringatan Bahaya Jalan Belok Zigzag adalah...",
+        answer: 0
+      },
+      {
+        image: ["lurus atau belok.png", "Wajib Belok Kekanan.png", "putar arah.png"],
+        question: "Rambu Petunjuk Wajib Belok adalah...",
+        answer: 1
+      },
+      {
+        image: ["dilarang masuk.png", "Dilarang belok kanan.png", "Dilarang putar arah.png"],
+        question: "Rambu Dilarang Putar arah adalah...",
+        answer: 2
+      }
+    ];
+
+    var score = 0;
+    var currentQuestion = 0;
+    var timeLeft = 120;
+    var timerId;
+
+    function displayQuestion() {
+      var questionText = document.getElementById("question");
+      var answerChoices = document.getElementsByClassName("answer-choice");
+      var resultContainer = document.querySelector(".result-container");
+      var resultText = document.getElementById("result-text");
+
+      var currentQuestionData = questions[currentQuestion];
+      var imageElements = document.querySelectorAll("#game-container .answer-choice img");
+
+      questionText.innerText = currentQuestionData.question;
+
+      for (var i = 0; i < answerChoices.length; i++) {
+        var choice = answerChoices[i];
+        choice.classList.remove("correct-choice", "incorrect-choice");
+        choice.style.pointerEvents = "auto";
+        imageElements[i].src = currentQuestionData.image[i];
+      }
+
+      resultContainer.style.display = "none";
+      resultText.innerText = "";
+
+      startTimer();
+
+      for (var j = 0; j < answerChoices.length; j++) {
+        var answerChoice = answerChoices[j];
+        answerChoice.onclick = function(event) {
+          var selectedChoice = event.currentTarget;
+          var choiceIndex = Array.prototype.indexOf.call(answerChoices, selectedChoice);
+          checkAnswer(choiceIndex);
+        };
+      }
+    }
+
+    function checkAnswer(choiceIndex) {
+      var answerChoices = document.getElementsByClassName("answer-choice");
+      var resultContainer = document.querySelector(".result-container");
+      var resultText = document.getElementById("result-text");
+      var selectedChoice = answerChoices[choiceIndex];
+
+      for (var i = 0; i < answerChoices.length; i++) {
+        answerChoices[i].style.pointerEvents = "none";
+      }
+
+      if (choiceIndex === questions[currentQuestion].answer) {
+        selectedChoice.classList.add("correct-choice");
+        score += 10;
+        resultText.innerText = "Jawaban Anda benar!";
+      } else {
+        selectedChoice.classList.add("incorrect-choice");
+        resultText.innerText = "Jawaban Anda salah. Jawaban yang benar!";
+      }
+
+      resultContainer.style.display = "block";
+
+      setTimeout(nextQuestion, 2000);
+    }
+
+    function nextQuestion() {
+      var answerChoices = document.getElementsByClassName("answer-choice");
+      var resultContainer = document.querySelector(".result-container");
+      resultContainer.style.display = "none";
+
+      for (var i = 0; i < answerChoices.length; i++) {
+        answerChoices[i].classList.remove("correct-choice", "incorrect-choice");
+      }
+
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        endGame();
+      }
+    }
+
+    function startTimer() {
+      var timer = document.getElementById("timer");
+
+      function updateTimer() {
+        var minutes = Math.floor(timeLeft / 60);
+        var seconds = timeLeft % 60;
+        timer.innerText = "Waktu: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+        if (timeLeft === 0) {
+          endGame();
+        } else {
+          timeLeft--;
+          timerId = setTimeout(updateTimer, 1000);
+        }
+      }
+
+      updateTimer();
+    }
+
+    function endGame() {
+      clearTimeout(timerId);
+
+      var gameContainer = document.getElementById("game-container");
+      var resultContainer = document.querySelector(".result-container");
+      var resultText = document.getElementById("result-text");
+
+      gameContainer.removeChild(resultContainer);
+
+      var finalScoreText = document.createElement("h1");
+      finalScoreText.innerText = "Game Selesai";
+      finalScoreText.classList.add("fade-out");
+      gameContainer.insertBefore(finalScoreText, gameContainer.firstChild);
+
+      var finalScore = document.createElement("h2");
+      finalScore.innerText = "Skor Akhir: " + score;
+      finalScore.classList.add("fade-out");
+      gameContainer.insertBefore(finalScore, gameContainer.firstChild);
+
+      var backButton = document.getElementById("back-button");
+      backButton.style.display = "block";
+    }
+
+    displayQuestion();
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latihan</title>
+    <style>
+
+        body {
+            background-image: url(ETS1.png);
+    background-size: cover;
+    overflow: hidden; 
+    height: 100vh;
+    margin: 0;
+        }
+
+        .tgh {
+            margin: 0 auto;
+            background-color: rgba(31, 31, 31, 0.754);
+            padding: 10px;
+            color: white;
+        }
+
+        .incorrect {
+            /* background-color: rgb(54, 184, 54); */
+            transform: rotate(180deg);
+            transition: 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="tgh">
+    <h1>Latihan</h1>
+    <h3>Pilih jawaban yang tepat!</h3>
+        <p>1. Garis melintang di sepanjang jalan di sebut juga?</p>
+        <input type="radio" name="question1" value="a"> a) Rambu lalu lintas<br>
+        <input type="radio" name="question1" value="b"> b) Marka jalan<br>
+        <input type="radio" name="question1" value="c"> c) Tukang ojek<br>
+        <input type="radio" name="question1" value="d"> d) Lampu jalanan<br>
+
+        <p>2. Kendaraan tidak boleh mendahului adalah pengertian dari?</p>
+        <input type="radio" name="question2" value="a"> a) Rambu dilarang mendahului<br>
+        <input type="radio" name="question2" value="b"> b) Marka jalan utuh<br>
+        <input type="radio" name="question2" value="c"> c) Marka jalan putus putus<br>
+        <input type="radio" name="question2" value="d"> d) A dan B benar<br>
+
+        <p>3. Kendaraan boleh mendahului namun harus tetap berhati-hati adalah pengertian dari?</p>
+        <input type="radio" name="question3" value="a"> a) Marka putus putus<br>
+        <input type="radio" name="question3" value="b"> b) Marka jalan utuh<br>
+        <input type="radio" name="question3" value="c"> c) A dan B benar<br>
+        <input type="radio" name="question3" value="d"> d) Rambu belok kiri<br>
+        <br>
+        <input type="button" value="Submit" onclick="checkAnswers()">
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            var correctAnswers = 0;
+            var resultDiv = document.getElementById('results');
+
+            var q1Answer = document.querySelector('input[name="question1"]:checked').value;
+            if (q1Answer === 'b') {
+                correctAnswers += 1;
+            } 
+
+            var q2Answer = document.querySelector('input[name="question2"]:checked').value;
+            if (q2Answer === 'd') {
+                correctAnswers += 1;
+            }
+
+            var q3Answer = document.querySelector('input[name="question3"]:checked').value;
+            if (q3Answer === 'a') {
+                correctAnswers += 1;
+            }
+
+            if (correctAnswers === 0) {
+                alert('jawaban anda salah semua');
+                document.body.classList.add('incorrect');
+                resultDiv.innerHTML = "<h2>Hasil:</h2><p>Jawaban yang benar: " + correctAnswers + " dari 3</p>";
+            } else {
+                resultDiv.innerHTML = "<h2>Hasil:</h2><p>Jawaban yang benar: " + correctAnswers + " dari 3</p>";
+            }
+        }
+    </script>
+</body>
+</html>

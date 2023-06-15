@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Belajar Lalu Lintas</title>
+    <style>
+        body {
+            background-image: url("background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        
+        .title {
+            font-family: 'Indie Flower', cursive;
+            color: #ffffff;
+            font-size: 80px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            margin-bottom: 350px;
+            animation: floating 2s ease-in-out infinite;
+        }
+        
+        .menu {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-right: -30px;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .menu button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 100px;
+            font-size: 35px;
+            text-transform: uppercase;
+            background-color: #ff6347;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: floatingButton 2s ease-in-out infinite;
+        }
+        
+        .menu button:hover {
+            background-color: #ffa07a;
+        }
+        
+        .panduan {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+        
+        .panduan a {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #333;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 42px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .panduan a:hover {
+            transform: scale(1.1);
+        }
+        
+        .modal {
+        display: none; /* Sembunyikan modal secara default */
+        position: fixed; /* Posisi tetap */
+        z-index: 1; /* Tampilkan modal di atas konten lain */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Tambahkan scrollbar jika konten melebihi ketinggian modal */
+        background-color: rgba(0, 0, 0, 0.4); /* Warna latar belakang modal */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Atur jarak margin atas dan bawah */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Tambahkan efek bayangan pada modal */
+            border-radius: 5px;
+        }
+
+        /* Gaya untuk tombol close */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Gaya tambahan untuk judul modal */
+        .modal-title {
+            color: #ff6347;
+            text-align: center;
+            font-family: 'Indie Flower', cursive;
+            margin-top: 0;
+        }
+
+        /* Gaya tambahan untuk teks dalam modal */
+        .modal-content p {
+            color: #333;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .modal-title {
+            font-size: 70px;
+        }
+        
+        @media screen and (max-width: 600px) {
+            .title {
+                font-size: 50px;
+            }
+        }
+        
+        @media screen and (max-width: 400px) {
+            .title {
+                font-size: 40px;
+            }
+        }
+        
+        @keyframes floatingButton {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
+          margin-bottom: 20px;
+          transition: transform 0.3s;
+          width: 400px;
+          margin-inline-start: 40px;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0.4;
+          background-color: #000;
+          z-index: -1;
+          transition: opacity 0.3s;
+        }
+
+        .card img {
+          max-width: 100%;
+          height: auto;
+          transition: transform 0.3s;
+        }
+
+        .card h2 {
+          margin-top: 10px;
+          font-size: 28px;
+          color: #333;
+          gap: 50px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .card:hover:before {
+          opacity: 0.6;
+        }
+
+        .card:hover img {
+          transform: scale(1.1);
+        }
+
+        
+
+        .back-button {
+          display: block;
+          margin-top: 20px;
+          padding: 15px 30px;
+          border: none;
+          border-radius: 100px;
+          font-size: 35px;
+          text-transform: uppercase;
+          background-color: #ff6347;
+          color: #ffffff;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          animation: floatingButton 2s ease-in-out infinite;
+          position: absolute;
+          bottom: 80px; /* Posisikan tombol di bagian bawah */
+          left: 45%; /* Pusatkan tombol secara horizontal */
+          transform: translateX(-50%); /* Geser tombol ke kiri sebesar setengah lebar tombol */
+        }
+
+        .back-button:hover {
+          background-color: #ffa07a;
+        }
+
+        @media screen and (max-width: 768px) {
+            .title {
+                font-size: 60px;
+                margin-bottom: 250px;
+            }
+
+            .menu {
+                margin-top: 10px;
+            }
+
+            .menu button {
+                font-size: 25px;
+                padding: 10px 20px;
+            }
+
+            .panduan {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .panduan a {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+                line-height: 26px;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                padding: 10px;
+                width: 90%;
+                max-width: 400px;
+            }
+
+            .modal-title {
+                font-size: 50px;
+            }
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title"><span style="color: #ff6347">Belajar</span> <span style="color: #ffd700">Lalu Lintas</span></h1>
+    
+        <div class="menu">
+            <button onclick="showCards()">Mulai</button>
+            <a href="C:\LAKATAN TEAM NEW\PEMWEB AKHIR.html"><button>Keluar</button></a>
+        </div>
+        
+        <div class="panduan">
+            <a href="#" alt="Panduan" onclick="openModal()">&#63;</a>
+        </div>
+
+        <audio id="background-music" src="music.mp3" loop></audio>
+
+        <div id="card-container" style="display: none;">
+          <div class="card" onclick="startGame('tebak-fungsi')">
+              <img src="card1.png" alt="Tebak Fungsi">
+              <h2>Tebak Fungsi Rambu</h2>
+          </div>
+          <div class="card" onclick="startGame('cocokan-puzzle')">
+              <img src="card2.png" alt="Cocokan Puzzle">
+              <h2>Cocokan Puzzle</h2>
+          </div>
+          <!-- Tombol Kembali -->
+          <button class="back-button" onclick="goToMainMenu()">Kembali</button>
+      </div>
+      
+      
+    <!-- Modal Panduan Bermain -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title" style="color: #ff6347; text-align: center; font-family: 'Indie Flower', cursive;">Panduan Bermain</h2>
+            <p style="color: #333;">
+                Selamat datang di permainan "Belajar Lalu Lintas"! Permainan ini terdiri dari dua mode:
+                <br><br>
+                1. Tebak Fungsi: Pada mode ini, Anda akan diberikan gambar-gambar tanda lalu lintas. Tugas Anda adalah menebak fungsi atau arti dari setiap tanda lalu lintas tersebut.
+                <br><br>
+                2. Cocokan Puzzle: Pada mode ini, Anda akan diberikan beberapa bagian gambar tanda lalu lintas yang teracak. Tugas Anda adalah menyusun kembali bagian-bagian tersebut sehingga membentuk gambar tanda lalu lintas yang utuh.
+                <br><br>
+                Selamat bermain dan semoga sukses!
+            </p>
+        </div>
+    </div>
+
+    <script>
+      var isMainMenuVisible = true;
+      function showCards() {
+          var backButton = document.querySelector('.back-button');
+          var menu = document.querySelector('.menu');
+          var cardContainer = document.getElementById('card-container');
+          var title = document.querySelector('.title');
+          var music = document.getElementById('background-music');
+
+          
+          menu.style.display = 'none';
+          cardContainer.style.display = 'flex';
+          title.style.display = 'none'; // Menyembunyikan judul game
+          music.play();
+          backButton.style.display = 'block';
+          isMainMenuVisible = false;
+      }
+
+      function goToMainMenu() {
+        if (!isMainMenuVisible) {
+            var menu = document.querySelector('.menu');
+            var cardContainer = document.getElementById('card-container');
+            var title = document.querySelector('.title');
+            var backButton = document.querySelector('.back-button');
+            var music = document.getElementById('background-music');
+
+            menu.style.display = 'flex';
+            cardContainer.style.display = 'none';
+            title.style.display = 'block';
+            backButton.style.display = 'none';
+            music.pause();
+
+            isMainMenuVisible = true;
+        }
+    }
+
+
+
+      function startGame(gameType) {
+          var cardContainer = document.getElementById('card-container');
+          var cards = document.querySelectorAll('.card');
+          var title = document.querySelector('.title');
+          var backButton = document.querySelector('.back-button');
+
+          cardContainer.style.display = 'none';
+          title.style.marginBottom = '350px';
+          backButton.style.display = 'block';
+
+          if (gameType === 'tebak-fungsi') {
+              // Menampilkan tampilan permainan Tebak Fungsi
+              window.location.href = 'tebak_fungsi.html'; // Ganti 'tebak-fungsi.html' dengan halaman HTML yang berisi permainan Tebak Fungsi
+          } else if (gameType === 'cocokan-puzzle') {
+              // Menampilkan tampilan permainan Cocokan Puzzle
+              window.location.href = 'cocokan_puzzle.html'; // Ganti 'cocokan-puzzle.html' dengan halaman HTML yang berisi permainan Cocokan Puzzle
+          }
+
+          }
+      
+
+      function openModal() {
+          var modal = document.getElementById('modal');
+          modal.style.display = 'block';
+      }
+
+      function closeModal() {
+          var modal = document.getElementById('modal');
+          modal.style.display = 'none';
+      }
+
+    </script>
+</body>
+</html>

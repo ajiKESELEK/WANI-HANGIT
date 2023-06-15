@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Puzzle Edukasi Lalu Lintas</title>
+  <style>
+    /* CSS Styling */
+    body {
+      background-image: url("background.jpg"); /* Ganti dengan URL gambar latar belakang yang diinginkan */
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #game-container {
+      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.8); /* Ubah opacity latar belakang jika diperlukan */
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 50px auto;
+      max-width: 800px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    .puzzle-container {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .puzzle-piece {
+      background-color: #eee;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+      padding: 20px;
+      transition: background-color 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .puzzle-piece:hover {
+      background-color: #ddd;
+      transform: scale(1.05);
+    }
+
+    .puzzle-piece.correct {
+      border-color: #689f38;
+    }
+
+    .puzzle-piece.incorrect {
+      border-color: #e53935;
+    }
+
+    .result-container {
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in;
+      animation-fill-mode: forwards;
+    }
+
+    .result-text {
+      color: #333;
+      margin: 10px 0;
+    }
+
+    #timer {
+      color: #666;
+      margin-top: 20px;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .fade-out {
+      animation: fadeOut 0.5s ease-out;
+    }
+
+    .answer-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      border: 2px dashed #aaa;
+      border-radius: 10px;
+    }
+
+    .answer-container.active {
+      border-color: #689f38;
+    }
+
+    .answer-container.correct {
+      border-color: #689f38;
+      animation: correctAnswer 0.5s;
+    }
+
+    .answer-container.incorrect {
+      border-color: #e53935;
+      animation: incorrectAnswer 0.5s;
+    }
+
+    .answer-container::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .puzzle-piece.dragging {
+      opacity: 0.5;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes correctAnswer {
+      0% {
+        transform: scale(1);
+        background-color: #fff;
+      }
+      50% {
+        transform: scale(1.2);
+        background-color: #689f38;
+      }
+      100% {
+        transform: scale(1);
+        background-color: #fff;
+      }
+    }
+
+    @keyframes incorrectAnswer {
+      0% {
+        transform: scale(1);
+        background-color: #fff;
+      }
+      50% {
+        transform: scale(1.2);
+        background-color: #e53935;
+      }
+      100% {
+        transform: scale(1);
+        background-color: #fff;
+      }
+    }
+
+    /* Media Queries */
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 24px;
+      }
+
+      .puzzle-piece {
+        padding: 10px;
+        margin: 5px;
+      }
+
+      .answer-container {
+        height: 40px;
+      }
+    }
+
+    @media (min-width: 601px) and (max-width: 900px) {
+      h2 {
+        font-size: 32px;
+      }
+
+      .puzzle-piece {
+        padding: 15px;
+        margin: 8px;
+      }
+    }
+
+    @media (min-width: 901px) and (max-width: 1200px) {
+      h2 {
+        font-size: 40px;
+      }
+
+      .puzzle-piece {
+        padding: 18px;
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div id="game-container">
+        <h2>Puzzle Edukasi Lalu Lintas</h2>
+        <div id="timer"></div>
+        <div id="puzzle-container" class="fade-in">
+          <!-- Kontainer elemen-elemen puzzle -->
+        </div>
+        <div id="result-container" class="fade-out">
+          <div id="result-text"></div>
+          <div id="score"></div>
+          <button onclick="restartGame()">Main lagi</button>
+          <button onclick="goToMainPage()">Kembali ke Halaman Utama</button> <!-- Added button -->
+        </div>
+      </div>
+
+  <script>
+    // Daftar soal dan jawaban
+    const puzzles = [
+      {
+        image: "dilarang masuk.png",
+        answer: "Berhenti"
+      },
+      {
+        image: "belok_kanan.jpg",
+        answer: "Belok Kanan"
+      },
+      // Tambahkan lebih banyak pertanyaan di sini...
+      {
+        image: "zebra.jpg",
+        answer: "Penyeberangan Pejalan Kaki"
+      },
+      {
+        image: "speed 40.jpg",
+        answer: "Batas Kecepatan 40"
+      },
+      {
+        image: "dilarang_parkir.jpg",
+        answer: "Dilarang Parkir"
+      }
+    ];
+
+    let currentPuzzleIndex = 0;
+    let score = 0;
+    let countdown;
+    const timerElement = document.getElementById("timer");
+    const puzzleContainer = document.getElementById("puzzle-container");
+    const resultContainer = document.getElementById("result-container");
+    const resultText = document.getElementById("result-text");
+    const scoreText = document.getElementById("score");
+
+    function startGame() {
+      // Mulai game dan atur waktu countdown (dalam detik)
+      countdown = 120;
+      showTimer();
+      showPuzzle();
+    }
+
+    function showTimer() {
+      timerElement.textContent = countdown;
+      countdown--;
+
+      if (countdown < 0) {
+        finishGame();
+      } else {
+        setTimeout(showTimer, 1000);
+      }
+    }
+
+    function goToMainPage() {
+      window.location.href = "index.html"; // Replace "main.html" with the filename of your main HTML page
+    }
+
+    function showPuzzle() {
+      const puzzle = puzzles[currentPuzzleIndex];
+
+      const puzzleImage = document.createElement("img");
+      puzzleImage.src = puzzle.image;
+      puzzleImage.alt = "Tanda Lalu Lintas";
+      puzzleContainer.appendChild(puzzleImage);
+
+      const puzzlePiecesContainer = document.createElement("div");
+      puzzlePiecesContainer.className = "puzzle-container";
+      puzzleContainer.appendChild(puzzlePiecesContainer);
+
+      const answer = puzzle.answer.toLowerCase().replace(/\s/g, "");
+      const shuffledAnswer = shuffleString(answer);
+
+      for (const char of shuffledAnswer) {
+        const puzzlePiece = document.createElement("div");
+        puzzlePiece.className = "puzzle-piece";
+        puzzlePiece.textContent = char;
+        puzzlePiece.draggable = true;
+        puzzlePiece.addEventListener("dragstart", dragStart);
+
+        puzzlePiecesContainer.appendChild(puzzlePiece);
+      }
+
+      const answerContainer = document.createElement("div");
+      answerContainer.className = "answer-container";
+      answerContainer.addEventListener("dragover", dragOver);
+      answerContainer.addEventListener("drop", drop);
+
+      puzzleContainer.appendChild(answerContainer);
+    }
+
+    function shuffleString(str) {
+      const array = str.split("");
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array.join("");
+    }
+
+    function dragStart(event) {
+      event.dataTransfer.setData("text/plain", event.target.textContent);
+      event.target.classList.add("dragging");
+    }
+
+    function dragOver(event) {
+      event.preventDefault();
+      const answerContainer = event.target;
+      answerContainer.classList.add("active");
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      const answerContainer = event.target;
+      const puzzlePieceText = event.dataTransfer.getData("text/plain");
+      const puzzle = puzzles[currentPuzzleIndex];
+      const answer = puzzle.answer.toLowerCase().replace(/\s/g, "");
+      const currentAnswer = getCurrentAnswer();
+
+      if (currentAnswer.length < answer.length) {
+        const puzzlePiece = document.createElement("div");
+        puzzlePiece.className = "puzzle-piece";
+        puzzlePiece.textContent = puzzlePieceText;
+        puzzlePiece.draggable = true;
+        puzzlePiece.addEventListener("dragstart", dragStart);
+
+        answerContainer.appendChild(puzzlePiece);
+        currentAnswer.push(puzzlePieceText);
+
+        if (currentAnswer.length === answer.length) {
+          checkAnswer(currentAnswer.join(""), answer);
+        }
+      }
+
+      answerContainer.classList.remove("active");
+    }
+
+    function getCurrentAnswer() {
+      const answerContainer = document.querySelector(".answer-container");
+      const puzzlePieces = answerContainer.querySelectorAll(".puzzle-piece");
+      const currentAnswer = [];
+      for (const piece of puzzlePieces) {
+        currentAnswer.push(piece.textContent);
+      }
+      return currentAnswer;
+    }
+
+    function checkAnswer(currentAnswer, correctAnswer) {
+      const puzzlePieces = document.querySelectorAll(".puzzle-piece");
+      const answerContainer = document.querySelector(".answer-container");
+
+      if (currentAnswer === correctAnswer) {
+        for (const piece of puzzlePieces) {
+          piece.classList.add("correct");
+          piece.style.animation = "correctAnswer 0.5s";
+        }
+
+        answerContainer.classList.add("correct");
+        answerContainer.style.animation = "correctAnswer 0.5s";
+
+        score++;
+        resultText.textContent = "Jawaban Benar!";
+      } else {
+        for (const piece of puzzlePieces) {
+          piece.classList.add("incorrect");
+          piece.style.animation = "incorrectAnswer 0.5s";
+        }
+
+        answerContainer.classList.add("incorrect");
+        answerContainer.style.animation = "incorrectAnswer 0.5s";
+
+        resultText.textContent = "Jawaban Salah!";
+      }
+
+      setTimeout(nextPuzzle, 2000);
+    }
+
+    function nextPuzzle() {
+      currentPuzzleIndex++;
+      puzzleContainer.innerHTML = "";
+
+      if (currentPuzzleIndex < puzzles.length) {
+        showPuzzle();
+      } else {
+        finishGame();
+      }
+    }
+
+    function finishGame() {
+      puzzleContainer.innerHTML = "";
+      resultContainer.classList.remove("fade-out");
+      resultContainer.classList.add("fade-in");
+
+      resultText.textContent = "Permainan Selesai!";
+      scoreText.textContent = "Skor Anda: " + score;
+    }
+
+    function restartGame() {
+      currentPuzzleIndex = 0;
+      score = 0;
+      resultContainer.classList.remove("fade-in");
+      resultContainer.classList.add("fade-out");
+      startGame();
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
